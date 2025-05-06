@@ -93,6 +93,26 @@ body,
 	position: absolute;
 }
 
+#start-button {
+	position: absolute;
+	top: 70%;
+	font-size: 24px;
+	padding: 10px 20px;
+	border-radius: 10px;
+	background-color: #8b966c;
+	color: white;
+	border: none;
+	display: none;
+	/* Default hidden */
+}
+
+/* Show start button only on mobile */
+@media (max-width: 768px) {
+	#start-button {
+		display: block;
+	}
+}
+
 #mobile-controls {
 	position: absolute;
 	bottom: 50px;
