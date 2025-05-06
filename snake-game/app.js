@@ -209,3 +209,37 @@ function updateHighScore() {
 	}
 	highScoreText.style.display='block';
 }
+
+function setDirection(newDirection) {
+	const oppositeDirections = {
+		up: 'down',
+		down: 'up',
+		left: 'right',
+		right: 'left'
+	};
+	// Prevent reversing direction
+	if (oppositeDirections[newDirection] !== direction) {
+		direction = newDirection;
+	}
+}
+
+let touchStartX = 0;
+let touchStartY = 0;
+
+document.addEventListener('touchstart', (e) => {
+	touchStartX = e.changedTouches[0].screenX;
+	touchStartY = e.changedTouches[0].screenY;
+});
+
+document.addEventListener('touchend', (e) => {
+	const deltaX = e.changedTouches[0].screenX - touchStartX;
+	const deltaY = e.changedTouches[0].screenY - touchStartY;
+
+	if (Math.abs(deltaX) > Math.abs(deltaY)) {
+		if (deltaX > 30) setDirection('right');
+		else if (deltaX < -30) setDirection('left');
+	} else {
+		if (deltaY > 30) setDirection('down');
+		else if (deltaY < -30) setDirection('up');
+	}
+});

@@ -92,3 +92,27 @@ body,
 #logo{
 	position: absolute;
 }
+
+#mobile-controls {
+	position: absolute;
+	bottom: 50px;
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+}
+
+.control-btn {
+	font-size: 30px;
+	padding: 10px 20px;
+	border-radius: 10px;
+	border: none;
+	background-color: #8b966c;
+	color: white;
+}
+
+@media (max-width: 768px) {
+	#mobile-controls {
+		display: flex;
+	}
+}
