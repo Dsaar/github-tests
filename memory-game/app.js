@@ -4,10 +4,10 @@ const section = document.querySelector('section');
 
 const playerLivesCount = document.querySelector('span');
 
-let playerLives = 6
+let playerLives = 10
 
 //link to text
-playerLivesCount.textContent = 6
+playerLivesCount.textContent = 10
 
 //generate data
 const getData = () => [
