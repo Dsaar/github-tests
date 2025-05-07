@@ -20,7 +20,6 @@ html {
 	place-items: center;
 	background-color: #ccccf1;
 	overflow: auto;
-	/* allow scrolling on mobile if needed */
 }
 
 .puzzle-wrapper {
@@ -40,37 +39,43 @@ html {
 	position: relative;
 }
 
-/* Puzzle stays grid */
 .puzzle {
 	display: grid;
 	grid-template-columns: repeat(5, calc(var(--width)/5));
 	grid-template-rows: repeat(4, calc(var(--height)/4));
 }
 
-/* Source tiles now in grid too */
 .cells {
+	position: relative;
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
 	grid-template-rows: repeat(4, 1fr);
 }
 
-/* Style for puzzle destination cells */
 .puzzle div {
 	border-right: 0.1rem dashed #fff;
 	border-bottom: 0.1rem dashed #fff;
 	transition: background-color 0.3s;
+	position: relative;
 }
 
 .puzzle div.active {
 	background-color: #9898ec;
 }
 
+/* Very important: when a draggable tile is dropped into a puzzle slot,
+make sure it keeps its original size and does not stretch */
 .puzzle div div {
-	height: 100%;
-	width: 100%;
+	height: calc(var(--height)/4);
+	width: calc(var(--width)/5);
+	max-height: calc(var(--height)/4);
+	max-width: calc(var(--width)/5);
 	background-size: var(--width) var(--height);
 	background-repeat: no-repeat;
 	animation: dropAnim 0.5s forwards;
+	position: relative;
+	/* avoid inheriting absolute positioning */
+	box-sizing: border-box;
 }
 
 @keyframes dropAnim {
@@ -83,18 +88,22 @@ html {
 	}
 }
 
-/* Draggable tiles */
 .cells div {
-	background-size: var(--width) var(--height);
-	background-repeat: no-repeat;
-	width: calc(var(--width)/5);
-	height: calc(var(--height)/4);
-	cursor: grab;
+    background-size: var(--width) var(--height);
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
 
-	/* Remove random positioning */
-	left: 0;
-	top: 0;
-	position: relative;
+    /* REMOVE absolute positioning */
+    position: relative;
+    left: 0;
+    top: 0;
+    transition: outline 0.2s;
+}
+
+.cells div.selected {
+	outline: 0.3rem solid gold;
 }
 
 .modal {
@@ -133,7 +142,6 @@ html {
 .final-img {
 	position: relative;
 	width: 45vw;
-	/* Larger than before */
 	aspect-ratio: 16/9;
 	background-image: url(images/img-1.jpg);
 	background-repeat: no-repeat;
@@ -149,7 +157,6 @@ html {
 	display: flex;
 	column-gap: 2rem;
 	opacity: 1;
-	/* Always visible for mobile usability */
 }
 
 #input-file {
