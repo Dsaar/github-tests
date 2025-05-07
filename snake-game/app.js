@@ -1,25 +1,24 @@
 'use strict';
 
-
-//Define the HTML elements
+// Define the HTML elements
 const board = document.getElementById('game-board');
 const instructionText = document.getElementById('instruction-text');
 const logo = document.getElementById('logo');
 const score = document.getElementById('score');
 const highScoreText = document.getElementById('highScore');
-//game variables
+const startButton = document.getElementById('start-button'); // Added for easier access
+
+// Game variables
 const gridSize = 20;
 let snake = [{ x: 10, y: 10 }];
 let food = generateFood();
 let highScore = 0;
 let direction = 'right';
-let gameInterval
+let gameInterval;
 let gameSpeedDelay = 200;
 let gameStarted = false;
 
-
-
-//draw game map, snake ,food
+// Draw game map, snake, food
 function draw() {
 	board.innerHTML = '';
 	drawSnake();
@@ -27,74 +26,53 @@ function draw() {
 	updateScore();
 }
 
-//draw snake
 function drawSnake() {
 	snake.forEach((segment) => {
 		const snakeElement = createGameElement('div', 'snake');
-		setPosition(snakeElement, segment)
+		setPosition(snakeElement, segment);
 		board.appendChild(snakeElement);
 	});
 }
 
-//create a snake or food cube/div
 function createGameElement(tag, className) {
 	const element = document.createElement(tag);
 	element.className = className;
 	return element;
 }
 
-//set position for snake or food
 function setPosition(element, position) {
 	element.style.gridColumn = position.x;
 	element.style.gridRow = position.y;
 }
 
-//test draw functoon
-//draw();
-
-//draw food element
 function drawFood() {
-	if(gameStarted){
-		const foodElement = createGameElement('div', 'food')
+	if (gameStarted) {
+		const foodElement = createGameElement('div', 'food');
 		setPosition(foodElement, food);
 		board.appendChild(foodElement);
 	}
 }
-//generating food and add random location 
+
 function generateFood() {
 	const x = Math.floor(Math.random() * gridSize) + 1;
 	const y = Math.floor(Math.random() * gridSize) + 1;
-	return { x, y }
+	return { x, y };
 }
 
-//moving  the snake
 function move() {
 	const head = { ...snake[0] };
 	switch (direction) {
-		case 'up':
-			head.y--;
-			break;
-
-		case 'down':
-			head.y++;
-			break;
-
-		case 'left':
-			head.x--;
-			break;
-
-		case 'right':
-			head.x++;
-			break;
+		case 'up': head.y--; break;
+		case 'down': head.y++; break;
+		case 'left': head.x--; break;
+		case 'right': head.x++; break;
 	}
 	snake.unshift(head);
 
-
-	//snake.pop();
 	if (head.x === food.x && head.y === food.y) {
 		food = generateFood();
 		increaseSpeed();
-		clearInterval(gameInterval);//clear past intervl
+		clearInterval(gameInterval);
 		gameInterval = setInterval(() => {
 			move();
 			checkCollision();
@@ -105,27 +83,18 @@ function move() {
 	}
 }
 
-//test moving
-/* setInterval(() => {
-	move();//move first
-	draw();//then draw new position
-}, 200); */
-
-//startGameFunction
-
 function startGame() {
-	gameStarted = true;//keep track of a running game
+	gameStarted = true;
 	instructionText.style.display = 'none';
 	logo.style.display = 'none';
-	document.getElementById('start-button').style.display = 'none';
+	startButton.style.display = 'none'; // Hide start button
 	gameInterval = setInterval(() => {
 		move();
 		checkCollision();
-		draw()
-	}, gameSpeedDelay)
+		draw();
+	}, gameSpeedDelay);
 }
 
-//keypress lisitner event
 function handleKeyPress(event) {
 	if (
 		(!gameStarted && event.code === 'Space') ||
@@ -134,18 +103,10 @@ function handleKeyPress(event) {
 		startGame();
 	} else {
 		switch (event.key) {
-			case 'ArrowUp':
-				direction = 'up'
-				break;
-			case 'ArrowDown':
-				direction = 'down'
-				break;
-			case 'ArrowLeft':
-				direction = 'left'
-				break;
-			case 'ArrowRight':
-				direction = 'right'
-				break;
+			case 'ArrowUp': setDirection('up'); break;
+			case 'ArrowDown': setDirection('down'); break;
+			case 'ArrowLeft': setDirection('left'); break;
+			case 'ArrowRight': setDirection('right'); break;
 		}
 	}
 }
@@ -153,7 +114,6 @@ function handleKeyPress(event) {
 document.addEventListener('keydown', handleKeyPress);
 
 function increaseSpeed() {
-	console.log(gameSpeedDelay)
 	if (gameSpeedDelay > 150) {
 		gameSpeedDelay -= 5;
 	} else if (gameSpeedDelay > 100) {
@@ -163,18 +123,19 @@ function increaseSpeed() {
 	} else if (gameSpeedDelay > 25) {
 		gameSpeedDelay -= 1;
 	}
-};
-
+}
 
 function checkCollision() {
-	const head = snake[0]
+	const head = snake[0];
 
+	// Wall collision
 	if (head.x < 1 || head.x > gridSize || head.y < 1 || head.y > gridSize) {
 		resetGame();
 	}
 
+	// Self collision
 	for (let i = 1; i < snake.length; i++) {
-		if (head.x === snake[i].x && snake.y === snake[i].y) {
+		if (head.x === snake[i].x && head.y === snake[i].y) {
 			resetGame();
 		}
 	}
@@ -189,8 +150,8 @@ function resetGame() {
 	gameSpeedDelay = 200;
 	updateScore();
 
-	// Show start button again when game resets
-	document.getElementById('start-button').style.display = 'block';
+	// Show start button again
+	startButton.style.display = 'block';
 }
 
 function updateScore() {
@@ -209,9 +170,9 @@ function updateHighScore() {
 	const currentScore = snake.length - 1;
 	if (currentScore > highScore) {
 		highScore = currentScore;
-		highScoreText.textContent=highScore.toString().padStart(3,'0');
+		highScoreText.textContent = highScore.toString().padStart(3, '0');
 	}
-	highScoreText.style.display='block';
+	highScoreText.style.display = 'block';
 }
 
 function setDirection(newDirection) {
@@ -221,12 +182,12 @@ function setDirection(newDirection) {
 		left: 'right',
 		right: 'left'
 	};
-	// Prevent reversing direction
 	if (oppositeDirections[newDirection] !== direction) {
 		direction = newDirection;
 	}
 }
 
+// Swipe controls for mobile
 let touchStartX = 0;
 let touchStartY = 0;
 
@@ -247,3 +208,23 @@ document.addEventListener('touchend', (e) => {
 		else if (deltaY < -30) setDirection('up');
 	}
 });
+
+// Mobile button controls — both click and touchstart for instant response
+function addMobileControls() {
+	const btnUp = document.getElementById('btn-up');
+	const btnDown = document.getElementById('btn-down');
+	const btnLeft = document.getElementById('btn-left');
+	const btnRight = document.getElementById('btn-right');
+
+	function addControl(button, direction) {
+		button.addEventListener('click', () => setDirection(direction));
+		button.addEventListener('touchstart', () => setDirection(direction));
+	}
+
+	addControl(btnUp, 'up');
+	addControl(btnDown, 'down');
+	addControl(btnLeft, 'left');
+	addControl(btnRight, 'right');
+}
+
+addMobileControls();
