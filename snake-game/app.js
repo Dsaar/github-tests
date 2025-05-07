@@ -117,6 +117,7 @@ function startGame() {
 	gameStarted = true;//keep track of a running game
 	instructionText.style.display = 'none';
 	logo.style.display = 'none';
+	document.getElementById('start-button').style.display = 'none';
 	gameInterval = setInterval(() => {
 		move();
 		checkCollision();
@@ -187,6 +188,9 @@ function resetGame() {
 	direction = 'right';
 	gameSpeedDelay = 200;
 	updateScore();
+
+	// Show start button again when game resets
+	document.getElementById('start-button').style.display = 'block';
 }
 
 function updateScore() {
