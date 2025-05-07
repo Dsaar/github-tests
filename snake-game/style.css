@@ -80,19 +80,20 @@ body,
 	background-color: #c4cfa3;
 }
 
-.snake{
+.snake {
 	border: #5a5a5a 1px dotted;
 }
 
-.food{
+.food {
 	background-color: #dedede;
-	border:  #999 5px solid;
+	border: #999 5px solid;
 }
 
-#logo{
+#logo {
 	position: absolute;
 }
 
+/* START BUTTON default hidden except mobile */
 #start-button {
 	position: absolute;
 	top: 70%;
@@ -103,19 +104,10 @@ body,
 	color: white;
 	border: none;
 	display: none;
-	/* Default hidden */
 }
 
-/* Show start button only on mobile */
-@media (max-width: 768px) {
-	#start-button {
-		display: block;
-	}
-}
-
+/* Mobile Controls default hidden except mobile */
 #mobile-controls {
-	position: absolute;
-	bottom: 50px;
 	display: none;
 	flex-direction: column;
 	align-items: center;
@@ -131,8 +123,46 @@ body,
 	color: white;
 }
 
+/* -------- MOBILE SPECIFIC STYLES -------- */
+
 @media (max-width: 768px) {
+
+	#start-button {
+		display: block;
+		position: absolute;
+		top: 85%;
+		font-size: 20px;
+		padding: 8px 16px;
+		border-radius: 8px;
+		background-color: #8b966c;
+		color: white;
+		border: none;
+	}
+
 	#mobile-controls {
 		display: flex;
+		position: absolute;
+		top: 90%;
+		left: 50%;
+		transform: translateX(-50%);
+		flex-direction: column;
+		align-items: center;
+		gap: 5px;
+	}
+
+	.control-btn {
+		font-size: 24px;
+		padding: 8px 16px;
+	}
+
+	/* Remove this ↓↓↓ */
+	/* #logo {
+		display: none;
+	} */
+
+	.scores {
+		width: 100%;
+		justify-content: space-around;
+		font-size: 20px;
 	}
 }
