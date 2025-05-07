@@ -124,9 +124,9 @@ body,
 }
 
 /* -------- MOBILE SPECIFIC STYLES -------- */
-
 @media (max-width: 768px) {
 
+	/* Show start button only on mobile and place lower */
 	#start-button {
 		display: block;
 		position: absolute;
@@ -139,6 +139,7 @@ body,
 		border: none;
 	}
 
+	/* Position mobile controls under game area */
 	#mobile-controls {
 		display: flex;
 		position: absolute;
@@ -155,11 +156,21 @@ body,
 		padding: 8px 16px;
 	}
 
-	/* Remove this ↓↓↓ */
-	/* #logo {
-		display: none;
-	} */
+	/* Resize the game board on mobile to fit the screen */
+	#game-board {
+		grid-template-columns: repeat(20, 15px);
+		/* reduced from 20px */
+		grid-template-rows: repeat(20, 15px);
+		/* reduced from 20px */
+		border-radius: 20px;
+	}
 
+	/* Keep logo visible on mobile */
+	#logo {
+		position: absolute;
+	}
+
+	/* Scores stay in place */
 	.scores {
 		width: 100%;
 		justify-content: space-around;
