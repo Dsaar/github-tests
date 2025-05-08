@@ -42,7 +42,7 @@ class PositionElements {
 
 	async addDraggableDivs() {
 
-		const { cells, draggableDivs, finalImg, loader, randomBtn } = this.elements;
+		const { cells, draggableDivs, finalImg, loader,randomBtn } = this.elements;
 
 		loader.classList.add('active')
 		await this.randomImage()
@@ -57,13 +57,12 @@ class PositionElements {
 			div.style.backgroundImage = `url(${this.imageURL})`;
 			cells.append(div);
 			div.style.backgroundPosition = `-${bgPositions[i][1]}vw -${bgPositions[i][0]}vw`;
-			// No random positions on mobile/fixed layout
-			div.style.left = '0';
-			div.style.top = '0';
+			div.style.left = `${shufflePositions[i][0]}vw`;
+			div.style.top = `${shufflePositions[i][1]}vw`;
 		})
 
-		randomBtn.onclick = () => location.reload()
+		randomBtn.onclick=()=>location.reload()
 	}
 };
 
-export default PositionElementsz
+export default PositionElements
