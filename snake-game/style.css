@@ -139,6 +139,10 @@ body,
 		border: none;
 	}
 
+	#instruction-text{
+		display: none;
+	}
+
 	/* Position mobile controls under game area */
 	#mobile-controls {
 		display: flex;
