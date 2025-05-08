@@ -150,9 +150,19 @@ function resetGame() {
 	gameSpeedDelay = 200;
 	updateScore();
 
-	// Show start button again
-	startButton.style.display = 'block';
+	// On mobile, show the start button again
+	if (window.innerWidth <= 768) {
+		startButton.style.display = 'block';
+		// Instruction text should stay hidden on mobile
+		instructionText.style.display = 'none';
+	} else {
+		// On desktop, keep start button hidden and show instruction text
+		startButton.style.display = 'none';
+		instructionText.style.display = 'block';
+	}
 }
+
+
 
 function updateScore() {
 	const currentScore = snake.length - 1;
