@@ -1,4 +1,6 @@
 import TileMap from "./tileMap.js";
+import movingDirection from "./movingDirection.js";
+
 
 //variables
 const tileSize = 32;
