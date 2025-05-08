@@ -4,84 +4,97 @@ import PositionElements from "./positionElements.js";
 
 class DragDrop {
 	constructor() {
-		this.positionElements = new PositionElements()
-		this.selected = 0;
-		this.dragDropEvents()
+		this.positionElements = new PositionElements();
+		this.selectedPiece = null; // for select & place
 		this.points = { correct: 0, wrong: 0 };
-		this.imageChange()
+		this.setupSelectAndPlace();
+		this.imageChange();
 	}
 
-	dragDropEvents() {
+	setupSelectAndPlace() {
 		const { draggableDivs, puzzleDivs, modal, modalText, modalBtn, attempt, cellsAmount } = this.positionElements.elements;
 
+		// Select piece from scrambled area
+		draggableDivs.forEach(div => {
+			div.addEventListener('click', () => this.selectPiece(div));
+		});
 
-		draggableDivs.forEach((draggableDiv, i) => {
-			draggableDiv.addEventListener('dragstart', (e) => {
-				this.selected = e.target;
-				console.log('dragstart')
-			})
-			puzzleDivs[i].addEventListener('dragover', (e) => {
-				e.preventDefault()
-				console.log('dragover')
-			})
-			puzzleDivs[i].addEventListener('drop', () => {
-				if (puzzleDivs[i].children.length === 0) {
-					this.selected.style.top = 0;
-					this.selected.style.left = 0;
-					this.selected.style.border = 'none';
-					puzzleDivs[i].append(this.selected);
-
-					if (this.selected.dataset.index === puzzleDivs[i].dataset.index) {
-						this.points.correct = 0;
-						puzzleDivs.forEach((div) => {
-							div.firstElementChild && div.dataset.index === div.firstElementChild.dataset.index && this.points.correct++
-						})
-					} else {
-						this.points.wrong++
-					}
-					console.log(this.points);
-
-					if (this.points.correct === cellsAmount) {
-						modal.style.cssText = 'opacity:1; visibility:visible;';
-						attempt.textContent = this.points.wrong;
-						modalBtn.onclick = () => location.reload();
-					}
-					const found = puzzleDivs.find((div) => !div.firstElementChild)
-					if (!found && this.points.correct < cellsAmount) {
-						modal.style.cssText = 'opacity:1; visibility:visible;';
-						modalText.textContent = 'You Lost. Try Again';
-						modalBtn.onclick = () => location.reload();
-					}
+		// Place piece into the puzzle grid or pick up existing
+		puzzleDivs.forEach(div => {
+			div.addEventListener('click', () => {
+				if (this.selectedPiece) {
+					this.placePiece(div);
+					this.checkWinCondition(puzzleDivs, cellsAmount, modal, modalText, modalBtn, attempt);
+				} else if (div.firstElementChild) {
+					this.selectPiece(div.firstElementChild);
 				}
-			})
-			puzzleDivs[i].addEventListener('dragenter', (e) => {
-				puzzleDivs[i].classList.add('active')
-			})
-			puzzleDivs[i].addEventListener('dragleave', (e) => {
-				console.log('leave')
-				puzzleDivs[i].classList.remove('active')
-			})
-		})
+			});
+		});
+	}
+
+	selectPiece(div) {
+		// Remove highlight from previous selection
+		if (this.selectedPiece) {
+			this.selectedPiece.style.outline = 'none';
+		}
+
+		this.selectedPiece = div;
+		this.selectedPiece.style.outline = '3px solid yellow'; // highlight selected piece
+	}
+
+	placePiece(slot) {
+		if (slot.children.length === 0) {
+			// Empty slot, place the piece
+			slot.appendChild(this.selectedPiece);
+			this.selectedPiece.style.top = 0;
+			this.selectedPiece.style.left = 0;
+			this.selectedPiece.style.border = 'none';
+			this.selectedPiece.style.outline = 'none';
+			this.selectedPiece = null;
+		} else {
+			// Slot occupied — for now do nothing. Could add swap logic later.
+		}
+	}
+
+	checkWinCondition(puzzleDivs, cellsAmount, modal, modalText, modalBtn, attempt) {
+		let correctCount = 0;
+
+		puzzleDivs.forEach(div => {
+			if (div.firstElementChild && div.dataset.index === div.firstElementChild.dataset.index) {
+				correctCount++;
+			}
+		});
+
+		if (correctCount === cellsAmount) {
+			modal.style.cssText = 'opacity:1; visibility:visible;';
+			attempt.textContent = this.points.wrong;
+			modalText.textContent = 'You Won!';
+			modalBtn.onclick = () => location.reload();
+		} else {
+			// If grid full but not correct, optionally trigger loss modal
+			const emptySlot = puzzleDivs.find(div => !div.firstElementChild);
+			if (!emptySlot && correctCount < cellsAmount) {
+				modal.style.cssText = 'opacity:1; visibility:visible;';
+				modalText.textContent = 'You Lost. Try Again';
+				modalBtn.onclick = () => location.reload();
+			}
+		}
 	}
 
 	imageChange() {
-		const { finalImg, inputFile, draggableDivs } = this.positionElements.elements
+		const { finalImg, inputFile, draggableDivs } = this.positionElements.elements;
 
-		inputFile.addEventListener('change', (e) => {
-			const url = URL.createObjectURL(inputFile.files[0])
+		inputFile.addEventListener('change', () => {
+			const url = URL.createObjectURL(inputFile.files[0]);
 
-			
-			finalImg.style.backgroundImage = `url(${url})`
+			finalImg.style.backgroundImage = `url(${url})`;
 
-			draggableDivs.forEach((div) => {
-				div.style.backgroundImage = `url(${url})`
+			draggableDivs.forEach(div => {
+				div.style.backgroundImage = `url(${url})`;
+			});
 
-			})
-
-			this.points = { correct: 0, wrong: 0 }
-
-
-		})
+			this.points = { correct: 0, wrong: 0 };
+		});
 	}
 }
 

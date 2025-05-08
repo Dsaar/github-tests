@@ -199,17 +199,17 @@ html {
 	visibility: hidden;
 }
 
-.loader.active{
+.loader.active {
 	visibility: visible;
 	opacity: 1;
 }
 
-.loader img{
+.loader img {
 	width: 10rem;
 
 }
 
-.heading{
+.heading {
 	position: absolute;
 	right: 2rem;
 	bottom: 2rem;
@@ -218,5 +218,41 @@ html {
 	text-transform: uppercase;
 }
 
+@media (max-width: 768px) {
+	.puzzle-wrapper {
+		flex-direction: column;
+		align-items: center;
+		gap: 2rem;
+	}
 
+	:root {
+		--width: 80vw;
+		--height: 64vw;
+	}
 
+	.final-img {
+		display: none;
+	}
+
+	.btns {
+		position: static;
+		flex-direction: column;
+		row-gap: 1rem;
+		opacity: 1 !important;
+		transform: none;
+		margin-top: 1rem;
+	}
+
+	:root {
+		--width: 80vw;
+		--height: 64vw;
+	}
+
+	.cells div {
+		position: relative !important;
+		left: auto !important;
+		top: auto !important;
+		/* REMOVE THIS LINE ↓ */
+		/* background-position: center !important; */
+	}
+}
