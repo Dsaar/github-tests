@@ -79,6 +79,48 @@ tileMap.setCanvasSize(canvas);
 setInterval(gameLoop, 1000 / 75);
 
 
+
+// Touch control for mobile
+let touchStartX = null;
+let touchStartY = null;
+
+canvas.addEventListener("touchstart", function (e) {
+	const touch = e.touches[0];
+	touchStartX = touch.clientX;
+	touchStartY = touch.clientY;
+}, false);
+
+canvas.addEventListener("touchend", function (e) {
+	if (touchStartX === null || touchStartY === null) return;
+
+	const touch = e.changedTouches[0];
+	const dx = touch.clientX - touchStartX;
+	const dy = touch.clientY - touchStartY;
+
+	// Determine swipe direction
+	if (Math.abs(dx) > Math.abs(dy)) {
+		if (dx > 30) {
+			pacMan.requestedMovingDirection = movingDirection.right;
+		} else if (dx < -30) {
+			pacMan.requestedMovingDirection = movingDirection.left;
+		}
+	} else {
+		if (dy > 30) {
+			pacMan.requestedMovingDirection = movingDirection.down;
+		} else if (dy < -30) {
+			pacMan.requestedMovingDirection = movingDirection.up;
+		}
+	}
+
+	pacMan.madeFirstMove = true;
+
+	// Reset touch start
+	touchStartX = null;
+	touchStartY = null;
+}, false);
+
+
+
 //Game Reset
 
 document.getElementById("restartButton").addEventListener("click", restartGame);

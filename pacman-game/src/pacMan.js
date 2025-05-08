@@ -66,7 +66,7 @@ export default class pacMan {
 		this.y = this.startY;
 		this.currentMovingDirection = null;
 		this.requestedMovingDirection = null;
-		this, this.madeFirstMove = false;
+		this.madeFirstMove = false;
 		this.powerDotActive = false;
 		this.powerDotAboutToExpire = false;
 		this.timers.forEach((t) => clearTimeout(t));
