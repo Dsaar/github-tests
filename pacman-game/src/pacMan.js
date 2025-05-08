@@ -96,36 +96,33 @@ export default class pacMan {
 		//up
 		if (event.keyCode == 38 || event.keyCode == 87) {
 			if (this.currentMovingDirection == movingDirection.down)
-				this.currentMovingDirection == movingDirection.up;
+				this.currentMovingDirection = movingDirection.up;
 			this.requestedMovingDirection = movingDirection.up;
 			this.madeFirstMove = true;
 		}
 		//down
 		if (event.keyCode == 40 || event.keyCode == 83) {
 			if (this.currentMovingDirection == movingDirection.up)
-				this.currentMovingDirection == movingDirection.down;
+				this.currentMovingDirection = movingDirection.down;
 			this.requestedMovingDirection = movingDirection.down;
 			this.madeFirstMove = true;
-
-
 		}
 		//left
 		if (event.keyCode == 37 || event.keyCode == 65) {
 			if (this.currentMovingDirection == movingDirection.right)
-				this.currentMovingDirection == movingDirection.left;
+				this.currentMovingDirection = movingDirection.left;
 			this.requestedMovingDirection = movingDirection.left;
 			this.madeFirstMove = true;
-
 		}
 		//right
 		if (event.keyCode == 39 || event.keyCode == 68) {
 			if (this.currentMovingDirection == movingDirection.left)
-				this.currentMovingDirection == movingDirection.right;
+				this.currentMovingDirection = movingDirection.right;
 			this.requestedMovingDirection = movingDirection.right;
 			this.madeFirstMove = true;
-
 		}
 	};
+
 
 	#move() {
 		if (this.currentMovingDirection !== this.requestedMovingDirection) {
