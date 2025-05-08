@@ -147,4 +147,8 @@ function restartGame() {
 	//tileMap.getEnemies(velocity).forEach(e => enemies.push(e)); // <-- recreate
 }
 
+// Start Modal Logic
+document.getElementById("startButton").addEventListener("click", function () {
+	document.getElementById("startModal").style.display = "none";
+});
 
