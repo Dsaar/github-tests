@@ -90,6 +90,9 @@ class PositionElements {
 
 		});
 
+		//  IMPORTANT: update draggableDivs to reflect the new shuffled divs 
+		this.elements.draggableDivs = Array.from(cells.children);
+
 		randomBtn.onclick = () => location.reload();
 	}
 }
