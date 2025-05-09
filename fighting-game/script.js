@@ -368,3 +368,18 @@ window.addEventListener('keyup', (event) => {
 	}
 	//dfdconsole.log(event)
 })
+
+function updateOrientation() {
+	if (window.matchMedia("(orientation: landscape)").matches) {
+		document.body.classList.add("landscape");
+		document.body.classList.remove("portrait");
+	} else {
+		document.body.classList.add("portrait");
+		document.body.classList.remove("landscape");
+	}
+}
+
+// Run on load and on orientation change
+window.addEventListener("load", updateOrientation);
+window.addEventListener("orientationchange", updateOrientation);
+window.addEventListener("resize", updateOrientation); // fallback for some devices
