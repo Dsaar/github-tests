@@ -6,53 +6,52 @@
 }
 
 body {
-	display: none;
-	background-color: black;
-	color: white;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	text-align: center;
-	font-size: 2vw;
-}
-
-/* Message when in portrait mode */
-body.portrait::before {
-	content: "📱➡️ Please rotate your device to landscape mode to play the game.";
 	display: flex;
-	height: 100vh;
+	flex-direction: column;
+	background-color: black;
+	color: white;
 	justify-content: center;
 	align-items: center;
-	padding: 20px;
+	height: 100vh;
 	text-align: center;
-	font-size: 1.8rem;
-	line-height: 2.5rem;
-	color: white;
-	background-color: black;
-}
-
-/* Game is visible only in landscape mode */
-@media screen and (orientation: landscape) {
-	body.landscape {
-		display: block;
-	}
-
-	body.portrait::before {
-		display: none;
-	}
+	font-size: 1.2rem;
+	overflow: hidden;
 }
 
 .container {
 	position: relative;
-	display: inline-block;
+	width: 100vw;
+	height: 100vh;
+	background-color: black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.game-wrapper {
+	position: relative;
+	width: 100%;
+	max-width: 1024px;
+	margin: 0 auto;
+}
+
+canvas.canvas {
+	width: 100%;
+	height: auto;
+	display: block;
+	background-color: black;
 }
 
 .health-bars {
 	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
 	display: flex;
 	width: 100%;
 	align-items: center;
-	padding: 20px;
+	padding: 10px 20px;
+	z-index: 2;
 }
 
 .playerBar {
@@ -96,6 +95,8 @@ body.portrait::before {
 	justify-content: center;
 	color: white;
 	border: 4px solid white;
+	z-index: 2;
+	font-size: 1rem;
 }
 
 .enemyBar {
@@ -124,4 +125,28 @@ body.portrait::before {
 	justify-content: center;
 	inset: 0 0 0 0;
 	display: none;
+	z-index: 3;
+}
+
+/* ====================== */
+/* Responsive for Mobile  */
+/* ====================== */
+@media (max-width: 600px) {
+	.health-bars {
+		top: 5px;
+		padding: 5px 10px;
+	}
+
+	.player-bar,
+	.enemy-bar,
+	.playerReduce,
+	.enemyReduce {
+		height: 16px !important;
+	}
+
+	.timer {
+		width: 70px;
+		height: 36px;
+		font-size: 0.7rem;
+	}
 }

@@ -19,20 +19,25 @@
 
 <body>
 	<div class="container">
-		<div class="health-bars">
-			<div class="playerBar">
-				<div class="player-bar"></div>
-				<div class="playerReduce" id="player-health"></div>
+		<div class="game-wrapper">
+			<div class="health-bars">
+				<div class="playerBar">
+					<div class="player-bar"></div>
+					<div class="playerReduce" id="player-health"></div>
+				</div>
+
+				<div class="timer">10</div>
+
+				<div class="enemyBar">
+					<div class="enemy-bar"></div>
+					<div class="enemyReduce" id="enemy-health"></div>
+				</div>
 			</div>
 
-			<div class="timer">10</div>
-			<div class="enemyBar">
-				<div class="enemy-bar"></div>
-				<div class="enemyReduce" id="enemy-health"></div>
-			</div>
+			<canvas class="canvas"></canvas>
 		</div>
+
 		<div class="gameScoreText">Tie</div>
-		<canvas class="canvas"></canvas>
 	</div>
 </body>
 
