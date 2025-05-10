@@ -121,12 +121,16 @@ canvas.canvas {
 .gameScoreText {
 	position: absolute;
 	color: white;
+	display: none;
+	flex-direction: column;
+	/* <-- stack vertically */
 	align-items: center;
 	justify-content: center;
 	inset: 0 0 0 0;
-	display: none;
 	z-index: 3;
-}
+	font-family: 'Press Start 2P', cursive;
+	gap: 20px;
+	/* space between result and button */ }
 
 /* ====================== */
 /* Responsive for Mobile  */
@@ -231,4 +235,21 @@ canvas.canvas {
 	.touch-controls {
 		display: flex;
 	}
+}
+
+#restartBtn {
+	padding: 10px 20px;
+	font-size: 1rem;
+	font-family: 'Press Start 2P', cursive;
+	background: white;
+	color: black;
+	border: none;
+	cursor: pointer;
+	border-radius: 6px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+}
+
+#gameResult {
+	font-size: 1.2rem;
+	margin: 0;
 }

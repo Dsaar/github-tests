@@ -89,32 +89,36 @@ class Fighter extends Sprite {
 	}
 
 
-
 	update() {
-		this.draw()
-		if (!this.dead) this.animateFrames()
+		this.draw();
+		if (!this.dead) this.animateFrames();
 
-		//attack boxes
-		this.attackBox.position.x = this.position.x + this.attackBox.offset.x
-		this.attackBox.position.y = this.position.y + this.attackBox.offset.y
+		// Update attack box position
+		this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
+		this.attackBox.position.y = this.position.y + this.attackBox.offset.y;
 
-		//draw the attack boxes
-		//ctx.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
+		// Update horizontal position
+		this.position.x += this.velocity.x;
 
-		this.position.x += this.velocity.x
-		this.position.y += this.velocity.y
-
-		if (this.position.y + this.height + this.velocity.y >= canvas.height - 96) {
-			this.velocity.y = 0;
-			this.position.y = 330
-		} else {
-			this.velocity.y += gravity
-
-
+		// Prevent moving outside canvas horizontally
+		if (this.position.x < 0) {
+			this.position.x = 0;
+		} else if (this.position.x + this.width > canvas.width) {
+			this.position.x = canvas.width - this.width;
 		}
 
+		// Update vertical position
+		this.position.y += this.velocity.y;
 
+		// Prevent falling below floor
+		if (this.position.y + this.height + this.velocity.y >= canvas.height - 96) {
+			this.velocity.y = 0;
+			this.position.y = canvas.height - this.height - 96;
+		} else {
+			this.velocity.y += gravity;
+		}
 	}
+	
 	attack() {
 		this.switchSprite('attack1')
 		this.isAttacking = true

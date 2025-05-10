@@ -267,8 +267,15 @@ window.addEventListener("load", updateOrientation);
 window.addEventListener("orientationchange", updateOrientation);
 window.addEventListener("resize", updateOrientation);
 
-// Unified DOMContentLoaded: modal + touch controls
+// Unified DOMContentLoaded: modal + touch controls + restart
 document.addEventListener("DOMContentLoaded", () => {
+	const restartBtn = document.getElementById("restartBtn");
+	if (restartBtn) {
+		restartBtn.addEventListener("click", () => {
+			location.reload();
+		});
+	}
+
 	const modal = document.getElementById("startModal");
 	const startBtn = document.getElementById("startBtn");
 

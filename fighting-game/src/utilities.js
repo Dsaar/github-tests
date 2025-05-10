@@ -8,18 +8,22 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
 }
 
 function determineWinner({ player, enemy, timerId }) {
-	clearTimeout(timerId)
-	gameScoreText.style.display = 'flex'
-	if (player.health === enemy.health) {
-		gameScoreText.innerHTML = 'Tie'
-		console.log('tie')
-	} else if (player.health > enemy.health) {
-		gameScoreText.innerHTML = 'Player 1 wins'
-	} else if (player.health < enemy.health) {
-		gameScoreText.innerHTML = 'Player 2 wins'
+	clearTimeout(timerId);
+	gameScoreText.style.display = 'flex';
 
+	const result = document.getElementById('gameResult');
+	const restartBtn = document.getElementById('restartBtn');
+	restartBtn.style.display = 'inline-block';
+
+	if (player.health === enemy.health) {
+		result.innerHTML = 'Tie';
+	} else if (player.health > enemy.health) {
+		result.innerHTML = 'Player 1 wins';
+	} else {
+		result.innerHTML = 'Player 2 wins';
 	}
 }
+
 
 let timer = 60
 let timerId
