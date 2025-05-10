@@ -83,7 +83,6 @@ const keys = {
 	ArrowUp: { pressed: false }
 };
 
-decreaseTimer();
 
 function animate() {
 	window.requestAnimationFrame(animate);
@@ -280,6 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const startBtn = document.getElementById("startBtn");
 
 	startBtn.addEventListener("click", () => {
+		decreaseTimer();
 		modal.style.display = "none";
 		animate();
 	});
