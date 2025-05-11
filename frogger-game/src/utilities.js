@@ -22,7 +22,7 @@ function animate() {
 
 animate();
 
-//event lisiner
+// Keyboard controls
 window.addEventListener('keydown', function (e) {
 	keys = [];
 	keys[e.keyCode] = true;
@@ -47,17 +47,15 @@ function scored() {
 function handleScoreBoard() {
 	ctx4.fillStyle = 'black';
 	ctx4.strokeStyle = 'black';
-	ctx4.font = '15px Verdana';
-	ctx4.strokeText('Score:', 265, 15);
-	ctx4.font = '60px Verdana';
-	ctx4.fillText(score, 270, 65);
-	ctx4.font = '15px Verdana';
-	ctx4.strokeText('Collisions:' + collisionCount, 10, 175);
-	ctx4.strokeText('Game Speed:' + gameSpeed.toFixed(1), 10, 195);
-
+	ctx4.font = `${canvas.height * 0.025}px Verdana`;
+	ctx4.strokeText('Score:', canvas.width * 0.44, canvas.height * 0.025);
+	ctx4.font = `${canvas.height * 0.1}px Verdana`;
+	ctx4.fillText(score, canvas.width * 0.45, canvas.height * 0.11);
+	ctx4.font = `${canvas.height * 0.025}px Verdana`;
+	ctx4.strokeText('Collisions:' + collisionCount, canvas.width * 0.015, canvas.height * 0.29);
+	ctx4.strokeText('Game Speed:' + gameSpeed.toFixed(1), canvas.width * 0.015, canvas.height * 0.325);
 }
 
-//collison detection between two rectangles
 function collision(first, second) {
 	return !(first.x > second.x + second.width ||
 		first.x + first.width < second.x ||
@@ -72,3 +70,27 @@ function resetGame() {
 	collisionCount++;
 	gameSpeed = 1;
 }
+
+// Mobile touch controls
+let touchStartX = 0;
+let touchStartY = 0;
+
+window.addEventListener('touchstart', function (e) {
+	touchStartX = e.changedTouches[0].clientX;
+	touchStartY = e.changedTouches[0].clientY;
+}, false);
+
+window.addEventListener('touchend', function (e) {
+	const dx = e.changedTouches[0].clientX - touchStartX;
+	const dy = e.changedTouches[0].clientY - touchStartY;
+
+	keys = [];
+
+	if (Math.abs(dx) > Math.abs(dy)) {
+		keys[dx > 0 ? 39 : 37] = true; // Right : Left
+	} else {
+		keys[dy > 0 ? 40 : 38] = true; // Down : Up
+	}
+
+	frogger.jump();
+});
