@@ -59,7 +59,20 @@ body {
 	border-radius: 10px;
 	width: 300px;
 	margin: 0 auto;
+	margin-top: 10px;
 	box-shadow: 0 0 10px #fff;
+}
+
+#highScore {
+	text-align: center;
+	font-size: 16px;
+	color: #fff;
+	background: #444;
+	padding: 8px;
+	border-radius: 10px;
+	width: 300px;
+	margin: 10px auto;
+	box-shadow: 0 0 6px #ccc;
 }
 
 @keyframes float {
