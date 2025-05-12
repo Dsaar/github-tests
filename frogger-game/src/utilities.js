@@ -1,5 +1,7 @@
 'use strict';
 
+let gameStarted = false;
+
 function animate() {
 	ctx1.clearRect(0, 0, canvas.width, canvas.height);
 	ctx2.clearRect(0, 0, canvas.width, canvas.height);
@@ -81,6 +83,8 @@ window.addEventListener('touchstart', function (e) {
 }, false);
 
 window.addEventListener('touchend', function (e) {
+	if (!gameStarted) return;
+
 	const dx = e.changedTouches[0].clientX - touchStartX;
 	const dy = e.changedTouches[0].clientY - touchStartY;
 
@@ -94,7 +98,6 @@ window.addEventListener('touchend', function (e) {
 
 	frogger.jump();
 
-	// Short delay before resetting to allow movement to register
 	setTimeout(() => {
 		keys = [];
 		frogger.moving = false;
@@ -107,7 +110,8 @@ const startButton = document.getElementById('startButton');
 
 startButton.addEventListener('click', () => {
 	modal.style.display = 'none';
-	animate(); // Start the game loop
+	gameStarted = true;
+	animate();
 });
 
 // Prevent double animate() on reload
