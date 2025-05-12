@@ -75,6 +75,7 @@ let highScore = localStorage.getItem('highScore') || 0;
 let highScoreDisplay = document.getElementById('highScore');
 highScoreDisplay.textContent = "High Score: " + highScore;
 
+// Keyboard controls
 document.addEventListener('keydown', (event) => {
 	if (event.key === 'ArrowLeft') b.moveLeft();
 	if (event.key === 'ArrowRight') b.moveRight();
@@ -89,7 +90,7 @@ function handleSwipe() {
 
 	const swipeDistance = touchEndX - touchStartX;
 
-	if (Math.abs(swipeDistance) > 30) { // Minimum swipe threshold
+	if (Math.abs(swipeDistance) > 30) {
 		if (swipeDistance > 0) {
 			b.moveRight();
 		} else {
@@ -113,22 +114,32 @@ document.addEventListener('touchend', (e) => {
 let gameArea = document.getElementById('gameArea');
 let presents = [];
 
-setInterval(() => {
-	let p = new Present(gameArea, b);
-	presents.push(p);
-}, 1500);
+let spawnInterval, fallInterval;
 
-setInterval(() => {
-	presents = presents.filter((p) => p.fall());
-}, 40);
+document.getElementById('startGameBtn').addEventListener('click', () => {
+	document.getElementById('startModal').style.display = 'none';
+	startGame();
+});
 
-// Only update high score when the page is being closed or reloaded
+function startGame() {
+	spawnInterval = setInterval(() => {
+		let p = new Present(gameArea, b);
+		presents.push(p);
+	}, 1500);
+
+	fallInterval = setInterval(() => {
+		presents = presents.filter((p) => p.fall());
+	}, 40);
+}
+
+// Save high score on pagehide
 window.addEventListener('pagehide', () => {
 	if (score > highScore) {
 		localStorage.setItem('highScore', score);
 	}
 });
 
+// Reset high score
 const resetButton = document.getElementById('resetHighScoreBtn');
 resetButton.addEventListener('click', () => {
 	localStorage.removeItem('highScore');
