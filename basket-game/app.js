@@ -80,8 +80,35 @@ document.addEventListener('keydown', (event) => {
 	if (event.key === 'ArrowRight') b.moveRight();
 });
 
-document.getElementById('leftTouch')?.addEventListener('touchstart', () => b.moveLeft());
-document.getElementById('rightTouch')?.addEventListener('touchstart', () => b.moveRight());
+// Swipe gesture support for mobile
+let touchStartX = null;
+let touchEndX = null;
+
+function handleSwipe() {
+	if (touchStartX === null || touchEndX === null) return;
+
+	const swipeDistance = touchEndX - touchStartX;
+
+	if (Math.abs(swipeDistance) > 30) { // Minimum swipe threshold
+		if (swipeDistance > 0) {
+			b.moveRight();
+		} else {
+			b.moveLeft();
+		}
+	}
+
+	touchStartX = null;
+	touchEndX = null;
+}
+
+document.addEventListener('touchstart', (e) => {
+	touchStartX = e.changedTouches[0].screenX;
+}, false);
+
+document.addEventListener('touchend', (e) => {
+	touchEndX = e.changedTouches[0].screenX;
+	handleSwipe();
+}, false);
 
 let gameArea = document.getElementById('gameArea');
 let presents = [];
@@ -95,7 +122,7 @@ setInterval(() => {
 	presents = presents.filter((p) => p.fall());
 }, 40);
 
-//  Only update high score when the page is being closed or reloaded
+// Only update high score when the page is being closed or reloaded
 window.addEventListener('beforeunload', () => {
 	if (score > highScore) {
 		localStorage.setItem('highScore', score);
