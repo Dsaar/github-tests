@@ -20,7 +20,7 @@ function animate() {
 	requestAnimationFrame(animate);
 }
 
-animate();
+//animate();
 
 // Keyboard controls
 window.addEventListener('keydown', function (e) {
@@ -101,3 +101,16 @@ window.addEventListener('touchend', function (e) {
 		frogger.frameX = 0;
 	}, 100);
 });
+
+const modal = document.getElementById('gameModal');
+const startButton = document.getElementById('startButton');
+
+startButton.addEventListener('click', () => {
+	modal.style.display = 'none';
+	animate(); // Start the game loop
+});
+
+// Prevent double animate() on reload
+window.onload = () => {
+	cancelAnimationFrame(frame);
+};
