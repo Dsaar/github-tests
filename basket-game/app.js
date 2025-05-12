@@ -123,7 +123,7 @@ setInterval(() => {
 }, 40);
 
 // Only update high score when the page is being closed or reloaded
-window.addEventListener('beforeunload', () => {
+window.addEventListener('pagehide', () => {
 	if (score > highScore) {
 		localStorage.setItem('highScore', score);
 	}
