@@ -93,4 +93,11 @@ window.addEventListener('touchend', function (e) {
 	}
 
 	frogger.jump();
+
+	// Short delay before resetting to allow movement to register
+	setTimeout(() => {
+		keys = [];
+		frogger.moving = false;
+		frogger.frameX = 0;
+	}, 100);
 });
