@@ -75,6 +75,24 @@ body {
 	box-shadow: 0 0 6px #ccc;
 }
 
+#resetHighScoreBtn {
+	display: block;
+	margin: 10px auto;
+	padding: 10px 20px;
+	font-family: 'Press Start 2P', cursive;
+	font-size: 12px;
+	background-color: #ff4d4d;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	box-shadow: 0 0 8px #fff;
+	cursor: pointer;
+}
+
+#resetHighScoreBtn:hover {
+	background-color: #cc0000;
+}
+
 @keyframes float {
 
 	0%,

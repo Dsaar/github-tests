@@ -25,7 +25,7 @@ class Basket {
 
 class Present {
 	constructor(gameArea, basket) {
-		this.x = Math.floor(Math.random() * 560); // slightly reduced to avoid overflow
+		this.x = Math.floor(Math.random() * 560);
 		this.y = 0;
 		this.gameArea = gameArea;
 		this.basket = basket;
@@ -71,10 +71,17 @@ let b = new Basket(myBasket);
 let score = 0;
 let scoreDisplay = document.getElementById('score');
 
+let highScore = localStorage.getItem('highScore') || 0;
+let highScoreDisplay = document.getElementById('highScore');
+highScoreDisplay.textContent = "High Score: " + highScore;
+
 document.addEventListener('keydown', (event) => {
 	if (event.key === 'ArrowLeft') b.moveLeft();
 	if (event.key === 'ArrowRight') b.moveRight();
 });
+
+document.getElementById('leftTouch')?.addEventListener('touchstart', () => b.moveLeft());
+document.getElementById('rightTouch')?.addEventListener('touchstart', () => b.moveRight());
 
 let gameArea = document.getElementById('gameArea');
 let presents = [];
@@ -87,3 +94,17 @@ setInterval(() => {
 setInterval(() => {
 	presents = presents.filter((p) => p.fall());
 }, 40);
+
+//  Only update high score when the page is being closed or reloaded
+window.addEventListener('beforeunload', () => {
+	if (score > highScore) {
+		localStorage.setItem('highScore', score);
+	}
+});
+
+const resetButton = document.getElementById('resetHighScoreBtn');
+resetButton.addEventListener('click', () => {
+	localStorage.removeItem('highScore');
+	highScore = 0;
+	highScoreDisplay.textContent = "High Score: 0";
+});
