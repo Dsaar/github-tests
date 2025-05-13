@@ -75,17 +75,17 @@ function resetGame() {
 let touchStartX = 0;
 let touchStartY = 0;
 
-window.addEventListener('touchstart', function (e) {
-	if (e.target.closest('button') || e.target.closest('.modal-content')) return;
+const wrapper = document.querySelector('.wrapper');
 
+window.addEventListener('touchstart', function (e) {
+	if (!wrapper.contains(e.target)) return;
 	e.preventDefault();
 	touchStartX = e.changedTouches[0].clientX;
 	touchStartY = e.changedTouches[0].clientY;
 }, { passive: false });
 
 window.addEventListener('touchend', function (e) {
-	if (e.target.closest('button') || e.target.closest('.modal-content')) return;
-
+	if (!wrapper.contains(e.target)) return;
 	e.preventDefault();
 	if (!gameStarted) return;
 
